@@ -36,6 +36,17 @@ export default defineConfig({
         compression({ algorithm: 'gzip', exclude: [/\.(br)$/, /\.(gz)$/] }),
         compression({ algorithm: 'brotliCompress', exclude: [/\.(br)$/, /\.(gz)$/] }),
     ],
+    server: {
+        // laravel-vite-plugin sets publicDir: false, so the dev server does not serve
+        // public/. Proxy asset prefixes to Laravel so root-relative urls inside CSS
+        // (e.g. background-image:url(/assets/...)) resolve against files served by
+        // Laravel, mirroring the single-origin behavior of production.
+        proxy: {
+            '/assets': 'http://127.0.0.1:8000',
+            '/logo': 'http://127.0.0.1:8000',
+            '/lms': 'http://127.0.0.1:8000',
+        },
+    },
     build: {
         rollupOptions: {
             output: {

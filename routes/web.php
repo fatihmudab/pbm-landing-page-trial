@@ -15,7 +15,7 @@ Route::get('/', function () {
     $number = preg_replace('/\D+/', '', (string) config('analytics.whatsapp_number'));
     $whatsappUrl = $number ? 'https://wa.me/'.$number.'?text='.urlencode((string) config('analytics.whatsapp_default_message')) : '#pricing';
 
-    return Inertia::render("demo/{$mode}", [
+    return Inertia::render('landing', [
         'whatsappUrl' => $whatsappUrl,
         'externalCheckoutUrl' => config('analytics.external_checkout_url'),
         'paymentMode' => config('analytics.payment_mode'),

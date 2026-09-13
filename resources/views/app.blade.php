@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="description" content="Persiapkan TOEFL 500+ dalam 15 hari dengan metode belajar terstruktur dari Full Bright Indonesia. Sudah membantu 45.000+ alumni meraih beasiswa & CPNS. Mulai dari Rp99rb.">
     <link rel="icon" href="/favicon.ico" sizes="any">
 
     <script>
@@ -60,7 +61,7 @@
     @viteReactRefresh
     @vite(['resources/css/app.css', 'resources/js/app.tsx', "resources/js/pages/{$page['component']}.tsx"])
     <x-inertia::head>
-        <title>{{ config('app.name', 'PBM Landing Page Boilerplate') }}</title>
+        <title>Kelas TOEFL Skor 500+ untuk Submission Beasiswa dan Kerja</title>
     </x-inertia::head>
 </head>
 <body class="font-sans antialiased">

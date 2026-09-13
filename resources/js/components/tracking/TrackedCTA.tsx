@@ -1,5 +1,5 @@
 import { usePage } from '@inertiajs/react';
-import type { AnchorHTMLAttributes, MouseEvent, ReactNode } from 'react';
+import type { AnchorHTMLAttributes, MouseEvent, ReactNode, Ref } from 'react';
 import { resolveCtaEvent } from '@/analytics/event-types';
 import type { CtaAction, CtaZone } from '@/analytics/event-types';
 import { track } from '@/analytics/tracker';
@@ -11,6 +11,7 @@ type Props = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'onClick'> & {
     label: string;
     children: ReactNode;
     onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
+    ref?: Ref<HTMLAnchorElement>;
 };
 
 export function TrackedCTA({
