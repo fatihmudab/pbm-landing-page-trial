@@ -18,6 +18,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Railway terminates TLS at its edge and forwards the request as
+        // plain HTTP, so its X-Forwarded-* headers must be trusted for
+        // asset()/url() to emit https:// — otherwise the browser blocks
+        // the CSS/JS as mixed content and the page renders blank.
+        $middleware->trustProxies(at: '*');
+
         $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);
 
         $middleware->validateCsrfTokens(except: ['payment/callback']);
