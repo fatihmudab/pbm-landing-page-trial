@@ -1,0 +1,37 @@
+# Nixpacks build configuration for Railway.
+#
+# Railway's Nixpacks default resolves PHP 8.3, but composer.lock pins
+# packages (laravel/framework 13.x, symfony/* v8) that require PHP >= 8.4.1,
+# which made the first deploy fail during composer install.
+# NIXPACKS_PHP_VERSION makes Nixpacks install the real PHP 8.4 runtime from
+# nixpkgs — the image genuinely runs 8.4 (unlike composer's config.platform
+# override, which only lies to the dependency resolver while the interpreter
+# stays on 8.3).
+
+[variables]
+NIXPACKS_PHP_VERSION = "8.4"
+NIXPACKS_NODE_VERSION = "22"
+# artisan serve (PHP built-in server) is single-threaded by default; extra
+# workers stop analytics beacons, page requests and the 62 MB showcase video
+# from queueing behind each other.
+PHP_CLI_SERVER_WORKERS = "4"
+
+# Full-stack Laravel + Inertia: PHP dependencies and the Node toolchain for
+# the Vite build are installed explicitly, so the build never depends on
+# auto-detection ordering.
+[phases.install]
+cmds = [
+    "composer install --optimize-autoloader --no-scripts --no-interaction --no-progress",
+    "npm ci",
+]
+
+[phases.build]
+cmds = [
+    "php artisan package:discover --ansi",
+    "npm run build",
+]
+
+# Migrate before serving so the database-backed session/cache stores and the
+# analytics tables always exist (SESSION_DRIVER=database, CACHE_STORE=database).
+[start]
+cmd = "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
