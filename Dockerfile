@@ -16,7 +16,13 @@ WORKDIR /app
 
 # pdo_mysql (DB-backed sessions/cache/analytics) + bcmath; mbstring, openssl,
 # xml, tokenizer, ctype and curl are already compiled into the official image.
-RUN docker-php-ext-install pdo_mysql bcmath
+# The cli-alpine base ships no compiler toolchain: $PHPIZE_DEPS is an env var
+# defined by the base image itself (autoconf, gcc, make, ...) naming exactly
+# what compiling extensions needs - added as a virtual package, removed again
+# afterwards so the runtime image stays small.
+RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
+    && docker-php-ext-install pdo_mysql bcmath \
+    && apk del .build-deps
 
 # unzip so composer can unpack dist archives (dev-VCS deps), git as fallback
 RUN apk add --no-cache unzip git
