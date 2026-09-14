@@ -1709,7 +1709,7 @@ closeReturnPopup();
                                 className="[display:block] [aspect-ratio:16/9] [width:100%] [object-fit:cover] [background:#151515]"
                             >
                                 <source
-                                    src="https://demo-fullbright.b-cdn.net/NEW.mp4#t=4"
+                                    src="/assets/video-platform.mp4#t=4"
                                     type="video/mp4"
                                 />
                                 {
